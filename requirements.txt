@@ -1,0 +1,4 @@
+kubernetes==11.0.0
+json_logging
+kafka-python
+urllib3
