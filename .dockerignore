@@ -1,0 +1,6 @@
+*
+!collector
+!*.py
+!requirements.txt
+!prestart.sh
+

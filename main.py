@@ -1,51 +1,36 @@
-import logging
-import json_logging
 import os
-import sys
+import threading
 # noinspection PyPackageRequirements
 from fastapi import FastAPI
-from kubernetes import client, config, watch
+from collector.kube_api import init_kube_client, watch_nais_apps, save_event_to_file
+from collector.nais import init_nais_logging
 
 # initiating logging
-json_logging.ENABLE_JSON_LOGGING = True
-json_logging.init_non_web()
-logger = logging.getLogger()
-logger.handlers = [logging.StreamHandler(sys.stdout)]
-logging.getLogger('uvicorn.access').disabled = True
-
-
+logger = init_nais_logging()
 app = FastAPI()
-
-try:
-    config.load_kube_config()
-except:
-    config.load_incluster_config()
-
-# if os.environ.get('NAIS_CLUSTER_NAME'):
-#     logger.info("Loading incluster_config")
-#     config.load_incluster_config()
-# else:
-#     config.load_kube_config()
-
 
 test_watch = []
 
 
+def watch_nais_callback(e):
+    test_watch.append(e)
+    save_event_to_file(e)
+
+
+def watch_nais_task() -> None:
+    watch_nais_apps(watch_nais_callback)
+
+
 @app.on_event('startup')
-async def fetch_namespaces():
+async def application_startup():
     if os.getenv('KUBERNETES_SERVICE_HOST'):
         logger.info("KUBERNETES_SERVICE_HOST: " + os.getenv('KUBERNETES_SERVICE_HOST'))
     else:
         logger.warning("No KUBERNETES_SERVICE_HOST set in env.")
-    v1 = client.CoreV1Api()
-    # w = watch.Watch()
-    # count = 10
-    # for event in w.stream(v1.list_namespace, _request_timeout=60):
-    #     test_watch.append(event)
-    #     print("Event: %s %s" % (event['type'], event['object'].metadata.name))
-    #     count -= 1
-    #     if not count:
-    #         w.stop()
+
+    # Loading kubernetes config
+    init_kube_client()
+    threading.Thread(target=watch_nais_task, daemon=True).start()
 
 
 @app.get("/")
