@@ -1,6 +1,6 @@
 from urllib import request
 import sys
-from collector import remove_no_proxy_domain
+from collector.nais import remove_no_proxy_domain
 import json
 
 
