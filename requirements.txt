@@ -1,7 +1,0 @@
-kubernetes==11.0.0
-json_logging
-pytest-cov
-pyjwt~=1.7.1
-fastapi~=0.54.2
-requests~=2.23.0
-responses

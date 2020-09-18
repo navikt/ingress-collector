@@ -1,6 +1,7 @@
 from kubernetes import client, config, watch
 import os
 import json
+import logging
 
 
 def save_event_to_file(e):
@@ -12,11 +13,10 @@ def save_event_to_file(e):
 
 
 def print_event_to_console(e):
-    print("Event: %s %s (%s)" % (
+    logging.info("Event: %s %s (%s)" % (
         e['type'],
         e['object']['metadata']['name'],
-        e['object']['metadata']['uid'])
-          )
+        e['object']['metadata']['uid']))
 
 
 def init_kube_client():

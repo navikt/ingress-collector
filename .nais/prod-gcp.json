@@ -1,3 +1,4 @@
 {
-  "namespace": "dataplattform"
+  "namespace": "dataplattform",
+  "pool": "nav-prod"
 }

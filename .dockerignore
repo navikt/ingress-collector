@@ -1,6 +1,6 @@
 *
 !collector
 !*.py
-!requirements.txt
-!prestart.sh
+!pyproject.toml
+!entrypoint.sh
 
