@@ -6,7 +6,7 @@ import json
 def save_event_to_file(e):
     uid = e['object']['metadata']['uid']
     data = e['object']
-    filename = os.getcwd() + "/../tmp/" + uid + ".json"
+    filename = os.getcwd() + "/tmp/" + uid + ".json"
     with open(filename, 'w') as outfile:
         json.dump(data, outfile, default=str)
 
