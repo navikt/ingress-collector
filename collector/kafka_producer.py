@@ -13,6 +13,6 @@ def produce_message(message: dict):
     message.pop("type")
     message["cluster"] = os.environ["NAIS_CLUSTER_NAME"]
     future = producer.send('dataplattform.ingress-topic', json.dumps(message).encode("utf-8"),
-                           key=bytes(message['metadata']['uid'], encoding="utf-8"))
+                           key=bytes(message['object']['metadata']['uid'], encoding="utf-8"))
     result = future.get(timeout=60)
     print(result)
