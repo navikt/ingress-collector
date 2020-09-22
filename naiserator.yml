@@ -6,7 +6,7 @@ metadata:
   name: ingress-collector
   namespace: dataplattform
 spec:
-  image: {image}
+  image: {{image}}
   port: 8000
   prometheus:
     enabled: false
@@ -26,7 +26,7 @@ spec:
     periodSeconds: 7
     failureThreshold: 3
   kafka:
-    pool: {pool}
+    pool: {{pool}}
   replicas:
     min: 1
     max: 1
