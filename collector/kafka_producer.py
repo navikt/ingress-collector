@@ -14,6 +14,6 @@ except KeyError as e:
 
 def produce_message(message: dict):
     future = producer.send('dataplattform.ingress-topic', json.dumps(message).encode("utf-8"),
-                           key=bytes(message['object']['metadata']['name'], encoding="utf-8"))
+                           key=bytes(message['object']['metadata']['uid'], encoding="utf-8"))
     result = future.get(timeout=60)
     print(result)

@@ -6,14 +6,6 @@ metadata:
   name: ingress-collector
   namespace: dataplattform
 spec:
-  accessPolicy:
-    outbound:
-      external:
-      - host: nav-dev-kafka-nav-dev.aivencloud.com
-        ports:
-        - name: kafkassl
-          port: 26484
-          protocol: TLS
   image: navikt/ingress-collector:v15
   port: 8000
   prometheus:
