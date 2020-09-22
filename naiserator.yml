@@ -4,15 +4,15 @@ metadata:
   labels:
     team: dataplattform
   name: ingress-collector
-  namespace: {{namespace}}
+  namespace: dataplattform
 spec:
-  image: {{image}}
-  port: 80
+  image: {image}
+  port: 8000
   prometheus:
     enabled: false
     path: /metrics
   istio:
-    enabled: true
+    enabled: false
   liveness:
     path: /is-alive
     timeout: 2
@@ -25,6 +25,8 @@ spec:
     initialDelay: 2
     periodSeconds: 7
     failureThreshold: 3
+  kafka:
+    pool: {pool}
   replicas:
     min: 1
     max: 1
@@ -37,8 +39,6 @@ spec:
       memory: 64Mi
   webproxy: true
   env:
-    - name: APP_VERSION
-      value: {{image}}
     - name: WEB_CONCURRENCY
       value: "1"
     - name: ACCESS_LOG

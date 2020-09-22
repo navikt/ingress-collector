@@ -1,22 +1,14 @@
 from kubernetes import client, config, watch
-import os
-import json
+from collector import nais
 
-
-def save_event_to_file(e):
-    uid = e['object']['metadata']['uid']
-    data = e['object']
-    filename = os.getcwd() + "/../tmp/" + uid + ".json"
-    with open(filename, 'w') as outfile:
-        json.dump(data, outfile, default=str)
+logger = nais.init_nais_logging()
 
 
 def print_event_to_console(e):
-    print("Event: %s %s (%s)" % (
+    logger.warning("Event: %s %s (%s)" % (
         e['type'],
         e['object']['metadata']['name'],
-        e['object']['metadata']['uid'])
-          )
+        e['object']['metadata']['uid']))
 
 
 def init_kube_client():

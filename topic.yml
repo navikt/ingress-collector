@@ -1,0 +1,24 @@
+---
+apiVersion: kafka.nais.io/v1
+kind: Topic
+metadata:
+  name: ingress-topic
+  namespace: dataplattform
+  labels:
+    team: dataplattform
+spec:
+  pool: nav-dev
+  config:  # optional; all fields are optional too; defaults shown
+    cleanupPolicy: compact  # delete, compact
+    minimumInSyncReplicas: 1
+    partitions: 1
+    replication: 3
+    retentionBytes: -1
+    retentionHours: 72
+  acl:
+    - team: dataplattform
+      application: ingress-collector
+      access: write   # read, write, readwrite
+    - team: dataplattform
+      application: amplitude-proxy
+      access: read
