@@ -20,5 +20,5 @@ spec:
       application: ingress-collector
       access: write   # read, write, readwrite
     - team: dataplattform
-      application: amplitude-proxy
+      application: ingress-retriever
       access: read
