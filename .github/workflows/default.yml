@@ -107,10 +107,10 @@ jobs:
       steps:
         - name: Checkout
           uses: actions/checkout@master
-        - name: Deploy to dev-gcp
+        - name: Deploy to prod-gcp
           uses: nais/deploy/actions/deploy@master
           env:
             APIKEY: ${{ secrets.NAIS_DEPLOY_KEY }}
             CLUSTER: prod-gcp
             RESOURCE: topic.yml
-            VARS: .nais/dev-gcp.json
+            VARS: .nais/prod-gcp.json

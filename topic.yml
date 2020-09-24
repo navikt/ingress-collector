@@ -7,7 +7,7 @@ metadata:
   labels:
     team: dataplattform
 spec:
-  pool: nav-dev
+  pool: {{pool}}
   config:  # optional; all fields are optional too; defaults shown
     cleanupPolicy: compact  # delete, compact
     minimumInSyncReplicas: 1
@@ -20,5 +20,5 @@ spec:
       application: ingress-collector
       access: write   # read, write, readwrite
     - team: dataplattform
-      application: ingress-retriever
+      application: amplitude-proxy
       access: read
