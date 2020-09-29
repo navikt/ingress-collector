@@ -6,7 +6,7 @@ metadata:
   name: ingress-collector
   namespace: dataplattform
 spec:
-  image: {{image}}
+  image: navikt/ingress-collector:vGUNS
   port: 8000
   prometheus:
     enabled: false
@@ -25,8 +25,6 @@ spec:
     initialDelay: 2
     periodSeconds: 7
     failureThreshold: 3
-  kafka:
-    pool: {{pool}}
   replicas:
     min: 1
     max: 1
@@ -37,7 +35,11 @@ spec:
     requests:
       cpu: 100m
       memory: 64Mi
-  webproxy: true
+  webproxy: false
+  accessPolicy:
+    outbound:
+      external:
+        - host: ingress-retriever.prod-gcp.nais.io
   env:
     - name: WEB_CONCURRENCY
       value: "1"
