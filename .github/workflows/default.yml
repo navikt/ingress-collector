@@ -51,7 +51,7 @@ jobs:
     if: github.ref == 'refs/heads/master' && github.event_name != 'release'
     strategy:
       matrix:
-        cluster: ["dev-sbs", "dev-gcp", "dev-fss"]
+        cluster: ["dev-sbs", "dev-gcp", "dev-fss", "lab-gcp"]
     timeout-minutes: 2
     steps:
       - name: Checkout
@@ -63,22 +63,6 @@ jobs:
           CLUSTER: ${{ matrix.cluster }}
           RESOURCE: naiserator.yml,network_policy.yml
           VARS: .nais/${{ matrix.cluster }}.json
-
-  deploy-topic-dev:
-      runs-on: ubuntu-latest
-      needs: build
-      if: github.ref == 'refs/heads/master' && github.event_name != 'release'
-      timeout-minutes: 2
-      steps:
-        - name: Checkout
-          uses: actions/checkout@master
-        - name: Deploy to dev-gcp
-          uses: nais/deploy/actions/deploy@master
-          env:
-            APIKEY: ${{ secrets.NAIS_DEPLOY_KEY }}
-            CLUSTER: dev-gcp
-            RESOURCE: topic.yml
-            VARS: .nais/dev-gcp.json
 
   deploy-prod:
     runs-on: ubuntu-latest
@@ -98,19 +82,3 @@ jobs:
           CLUSTER: ${{ matrix.cluster }}
           RESOURCE: naiserator.yml,network_policy.yml
           VARS: .nais/${{ matrix.cluster }}.json
-
-  deploy-topic-prod:
-      runs-on: ubuntu-latest
-      needs: build
-      if: github.event_name == 'release'
-      timeout-minutes: 2
-      steps:
-        - name: Checkout
-          uses: actions/checkout@master
-        - name: Deploy to prod-gcp
-          uses: nais/deploy/actions/deploy@master
-          env:
-            APIKEY: ${{ secrets.NAIS_DEPLOY_KEY }}
-            CLUSTER: prod-gcp
-            RESOURCE: topic.yml
-            VARS: .nais/prod-gcp.json

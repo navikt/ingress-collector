@@ -1,17 +1,30 @@
 import os
 import threading
+import requests
+import json
+import backoff
 # noinspection PyPackageRequirements
 from fastapi import FastAPI
-from collector import kube_api, nais, kafka_producer
+from collector import kube_api, nais
 
 # initiating logging
 logger = nais.init_nais_logging()
 app = FastAPI()
 
 
+@backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_tries=4)
+def request_put(url, message):
+    res = requests.put(url, json.dumps(message).encode("utf-8"))
+    res.raise_for_status()
+    logger.info(res)
+
+
 def watch_nais_callback(e):
     kube_api.print_event_to_console(e)
-    kafka_producer.produce_message(e)
+    e.pop("type")
+    e["cluster"] = os.environ["NAIS_CLUSTER_NAME"]
+    request_put('https://ingress-retriever.prod-gcp.nais.io', e)
+    request_put('https://ingress-retriever.dev-gcp.nais.io', e)
 
 
 def watch_nais_task() -> None:
