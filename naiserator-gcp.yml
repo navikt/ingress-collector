@@ -13,6 +13,10 @@ spec:
     path: /metrics
   istio:
     enabled: false
+  accessPolicy:
+    outbound:
+      external:
+        - host: login.microsoftonline.com
   liveness:
     path: /is-alive
     timeout: 2
