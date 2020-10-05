@@ -115,5 +115,5 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_KEY }}
           CLUSTER: prod-gcp
-          RESOURCE: naiserator.yml,network_policy.yml
+          RESOURCE: naiserator-gcp.yml,network_policy.yml
           VARS: .nais/prod-gcp.json
