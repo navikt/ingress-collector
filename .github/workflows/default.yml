@@ -51,7 +51,7 @@ jobs:
     if: github.ref == 'refs/heads/master' && github.event_name != 'release'
     strategy:
       matrix:
-        cluster: ["dev-sbs", "dev-gcp", "dev-fss"]
+        cluster: ["dev-sbs", "dev-gcp", "dev-fss", "lab-gcp"]
     timeout-minutes: 2
     steps:
       - name: Checkout
