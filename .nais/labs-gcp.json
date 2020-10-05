@@ -2,5 +2,5 @@
   "namespace": "dataplattform",
   "pool": "nav-dev",
   "webproxy": "false",
-  "no_proxy": ""
+  "no_proxy": " "
 }
