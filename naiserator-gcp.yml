@@ -45,11 +45,3 @@ spec:
       value: /etc/pki/tls/certs/ca-bundle.crt
     - name: SSL_CERT_FILE
       value: /etc/pki/tls/certs/ca-bundle.crt
-    - name: HTTPS_PROXY
-      value: {{proxy}}
-    - name: HTTP_PROXY
-      value: {{proxy}}
-    - name: https_proxy
-      value: {{proxy}}
-    - name: http_proxy
-      value: {{proxy}}
