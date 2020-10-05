@@ -6,7 +6,7 @@ metadata:
   name: ingress-collector
   namespace: dataplattform
 spec:
-  image: navikt/ingress-collector:vGUNS
+  image: {{image}}
   port: 8000
   prometheus:
     enabled: false
@@ -35,11 +35,7 @@ spec:
     requests:
       cpu: 100m
       memory: 64Mi
-  webproxy: false
-  accessPolicy:
-    outbound:
-      external:
-        - host: ingress-retriever.prod-gcp.nais.io
+  webproxy: {{webproxy}}
   env:
     - name: WEB_CONCURRENCY
       value: "1"
@@ -49,3 +45,7 @@ spec:
       value: /etc/pki/tls/certs/ca-bundle.crt
     - name: SSL_CERT_FILE
       value: /etc/pki/tls/certs/ca-bundle.crt
+    - name: NO_PROXY
+      value: {{no_proxy}}
+    - name: no_proxy
+      value: {{no_proxy}}

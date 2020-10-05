@@ -24,6 +24,7 @@ def watch_nais_callback(e):
     e.pop("type")
     e["cluster"] = os.environ["NAIS_CLUSTER_NAME"]
     request_put('https://ingress-retriever.prod-gcp.nais.io', e)
+    request_put('https://ingress-retriever.dev-gcp.nais.io', e)
 
 
 def watch_nais_task() -> None:
