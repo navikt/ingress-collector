@@ -3,12 +3,7 @@ name: Deploy
 env:
   IMAGE: docker.pkg.github.com/${{ github.repository }}/${{ github.event.repository.name }}:${{ github.sha }}
 
-on:
-  push:
-    branches:
-      - master
-  release:
-    types: published
+on: push
 
 jobs:
   test:
