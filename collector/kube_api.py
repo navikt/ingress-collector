@@ -13,9 +13,9 @@ def print_event_to_console(e):
 def init_kube_client():
     from kubernetes import config
     try:
-        config.load_kube_config()
-    except:
         config.load_incluster_config()
+    except:
+        config.load_kube_config()
 
 
 def watch_nais_apps(callback_function):
