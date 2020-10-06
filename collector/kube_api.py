@@ -24,10 +24,14 @@ def watch_nais_apps(callback_function):
     try:
         config.load_incluster_config()
     except Exception as e:
-        print("")
+        logger.warning("SE NED")
+        logger.warning("")
         logger.warning(e)
-        print("")
+        logger.warning("")
         config.load_kube_config()
+        logger.warning("SE OPP")
+    else:
+        logger.warning("KORREKT")
 
     v1 = client.CustomObjectsApi()
     w = watch.Watch()
