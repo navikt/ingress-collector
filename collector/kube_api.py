@@ -1,4 +1,3 @@
-from kubernetes import client, config, watch
 from collector import nais
 
 logger = nais.init_nais_logging()
@@ -12,6 +11,7 @@ def print_event_to_console(e):
 
 
 def init_kube_client():
+    from kubernetes import config
     try:
         config.load_kube_config()
     except:
@@ -19,6 +19,7 @@ def init_kube_client():
 
 
 def watch_nais_apps(callback_function):
+    from kubernetes import client, watch
     v1 = client.CustomObjectsApi()
     w = watch.Watch()
     for event in w.stream(v1.list_cluster_custom_object,
