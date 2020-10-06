@@ -5,10 +5,11 @@ import json
 import backoff
 # noinspection PyPackageRequirements
 from fastapi import FastAPI
-from collector import kube_api, nais
+import collector.kube_api
+import collector.nais
 
 # initiating logging
-logger = nais.init_nais_logging()
+logger = collector.nais.init_nais_logging()
 app = FastAPI()
 
 
@@ -20,7 +21,7 @@ def request_put(url, message):
 
 
 def watch_nais_callback(e):
-    kube_api.print_event_to_console(e)
+    collector.kube_api.print_event_to_console(e)
     e.pop("type")
     e["cluster"] = os.environ["NAIS_CLUSTER_NAME"]
     request_put('https://ingress-retriever.prod-gcp.nais.io/event', e)
@@ -28,7 +29,7 @@ def watch_nais_callback(e):
 
 
 def watch_nais_task() -> None:
-    kube_api.watch_nais_apps(watch_nais_callback)
+    collector.kube_api.watch_nais_apps(watch_nais_callback)
 
 
 @app.on_event('startup')
@@ -40,7 +41,7 @@ def application_startup():
         logger.warning("No KUBERNETES_SERVICE_HOST set in env.")
 
     # Loading kubernetes config
-    kube_api.init_kube_client()
+    collector.kube_api.init_kube_client()
     threading.Thread(target=watch_nais_task, daemon=True).start()
 
 
