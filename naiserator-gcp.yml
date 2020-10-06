@@ -15,16 +15,9 @@ spec:
     enabled: false
   accessPolicy:
     outbound:
-      rules:
-        - application: ingress-retriever
-          namespace: dataplattform
-          cluster: dev-gcp
-        - application: ingress-retriever
-          namespace: dataplattform
-          cluster: labs-gcp
-        - application: ingress-retriever
-          namespace: dataplattform
-          cluster: prod-gcp
+      external:
+       - host: https://ingress-retriever.prod-gcp.nais.io
+       - host: https://ingress-retriever.dev-gcp.nais.io
   liveness:
     path: /is-alive
     timeout: 2
