@@ -22,10 +22,10 @@ def request_put(url, message):
 
 def watch_nais_callback(e):
     collector.kube_api.print_event_to_console(e)
-    e.pop("type")
-    e["cluster"] = os.environ["NAIS_CLUSTER_NAME"]
-    request_put('https://ingress-retriever.prod-gcp.nais.io/event', e)
-    request_put('https://ingress-retriever.dev-gcp.nais.io/event', e)
+    # e.pop("type")
+    # e["cluster"] = os.environ["NAIS_CLUSTER_NAME"]
+    # request_put('https://ingress-retriever.prod-gcp.nais.io/event', e)
+    # request_put('https://ingress-retriever.dev-gcp.nais.io/event', e)
 
 
 def watch_nais_task() -> None:

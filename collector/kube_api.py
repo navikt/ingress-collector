@@ -23,7 +23,10 @@ def watch_nais_apps(callback_function):
 
     try:
         config.load_incluster_config()
-    except:
+    except Exception as e:
+        print("")
+        logger.warning(e)
+        print("")
         config.load_kube_config()
 
     v1 = client.CustomObjectsApi()
