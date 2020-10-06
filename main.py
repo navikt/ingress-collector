@@ -41,7 +41,7 @@ def application_startup():
 
     # Loading kubernetes config
     # collector.kube_api.init_kube_client()
-    threading.Thread(target=watch_nais_task, daemon=True).start()
+    threading.Thread(target=kube_api.watch_nais_apps(watch_nais_callback), daemon=True).start()
 
 
 @app.get("/")
