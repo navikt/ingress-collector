@@ -16,8 +16,8 @@ spec:
   accessPolicy:
     outbound:
       external:
-       - host: https://ingress-retriever.prod-gcp.nais.io
-       - host: https://ingress-retriever.dev-gcp.nais.io
+       - host: ingress-retriever.prod-gcp.nais.io
+       - host: ingress-retriever.dev-gcp.nais.io
   liveness:
     path: /is-alive
     timeout: 2
