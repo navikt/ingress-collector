@@ -41,7 +41,7 @@ def application_startup():
         logger.warning("No KUBERNETES_SERVICE_HOST set in env.")
 
     # Loading kubernetes config
-    collector.kube_api.init_kube_client()
+    # collector.kube_api.init_kube_client()
     threading.Thread(target=watch_nais_task, daemon=True).start()
 
 

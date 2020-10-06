@@ -61,7 +61,7 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_KEY }}
           CLUSTER: ${{ matrix.cluster }}
-          RESOURCE: naiserator.yml,network_policy.yml
+          RESOURCE: naiserator.yml
           VARS: .nais/${{ matrix.cluster }}.json
 
   deploy-dev-labs-gcp:
@@ -99,7 +99,7 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_KEY }}
           CLUSTER: ${{ matrix.cluster }}
-          RESOURCE: naiserator.yml,network_policy.yml
+          RESOURCE: naiserator.yml
           VARS: .nais/${{ matrix.cluster }}.json
 
   deploy-prod-gcp:

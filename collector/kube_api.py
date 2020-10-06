@@ -19,7 +19,13 @@ def init_kube_client():
 
 
 def watch_nais_apps(callback_function):
-    from kubernetes import client, watch
+    from kubernetes import client, watch, config
+
+    try:
+        config.load_incluster_config()
+    except:
+        config.load_kube_config()
+
     v1 = client.CustomObjectsApi()
     w = watch.Watch()
     for event in w.stream(v1.list_cluster_custom_object,
