@@ -1,17 +1,8 @@
 from kubernetes.client import CustomObjectsApi
 from kubernetes.watch import Watch
-import kubernetes.config
-
 from collector.nais import init_nais_logging
 
 logger = init_nais_logging()
-
-
-def init_kube_client():
-    try:
-        kubernetes.config.load_incluster_config()
-    except:
-        kubernetes.config.load_kube_config()
 
 
 def watch_nais_apps(callback_function):

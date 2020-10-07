@@ -7,6 +7,7 @@ import backoff
 from fastapi import FastAPI
 from collector.nais import init_nais_logging
 from collector.kube_api import watch_nais_apps
+import kubernetes.config
 
 # initiating logging
 logger = init_nais_logging()
@@ -18,6 +19,13 @@ def request_put(url, message):
     res = requests.put(url, json.dumps(message).encode("utf-8"))
     res.raise_for_status()
     logger.info(res)
+
+
+def init_kube_client():
+    try:
+        kubernetes.config.load_incluster_config()
+    except:
+        kubernetes.config.load_kube_config()
 
 
 def watch_nais_callback(e):
@@ -41,7 +49,7 @@ def application_startup():
         logger.warning("No KUBERNETES_SERVICE_HOST set in env.")
 
     # Loading kubernetes config
-    # init_kube_client()
+    init_kube_client()
     threading.Thread(target=watch_nais_task, daemon=True).start()
 
 
