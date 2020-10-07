@@ -6,7 +6,7 @@ import backoff
 # noinspection PyPackageRequirements
 from fastapi import FastAPI
 from collector.nais import init_nais_logging
-from collector.kube_api import watch_nais_apps, init_kube_client
+from collector.kube_api import watch_nais_apps
 
 # initiating logging
 logger = init_nais_logging()
@@ -48,7 +48,7 @@ def application_startup():
         logger.warning("No KUBERNETES_SERVICE_HOST set in env.")
 
     # Loading kubernetes config
-    init_kube_client()
+    # init_kube_client()
     threading.Thread(target=watch_nais_task, daemon=True).start()
 
 
