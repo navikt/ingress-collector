@@ -6,13 +6,6 @@ logger = init_nais_logging()
 
 
 def watch_nais_apps(callback_function):
-
-    try:
-        kubernetes.config.load_incluster_config()
-    except Exception as e:
-        print(e)
-        kubernetes.config.load_kube_config()
-
     v1 = CustomObjectsApi()
 
     data = v1.list_cluster_custom_object(group="nais.io",
