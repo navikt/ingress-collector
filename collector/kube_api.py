@@ -11,12 +11,12 @@ def init_kube_client():
 
 
 def watch_nais_apps(callback_function):
-
-    try:
-        load_incluster_config()
-    except Exception as e:
-        logger.warning(e)
-        load_kube_config()
+    #
+    # try:
+    #     load_incluster_config()
+    # except Exception as e:
+    #     print(e)
+    #     load_kube_config()
 
     v1 = CustomObjectsApi()
     w = Watch()
