@@ -40,19 +40,6 @@ def watch_nais_task() -> None:
     watch_nais_apps(watch_nais_callback)
 
 
-@app.on_event('startup')
-def application_startup():
-    logger.info('application_startup')
-    if os.getenv('KUBERNETES_SERVICE_HOST'):
-        logger.info("KUBERNETES_SERVICE_HOST: " + os.getenv('KUBERNETES_SERVICE_HOST'))
-    else:
-        logger.warning("No KUBERNETES_SERVICE_HOST set in env.")
-
-    # Loading kubernetes config
-    init_kube_client()
-    threading.Thread(target=watch_nais_task, daemon=True).start()
-
-
 @app.get("/")
 def root():
     return {"message": "Hello World"}
@@ -66,3 +53,16 @@ def is_healthy():
 @app.get('/is-ready')
 def is_ready():
     return 'OK'
+
+
+@app.on_event('startup')
+def application_startup():
+    logger.info('application_startup')
+    if os.getenv('KUBERNETES_SERVICE_HOST'):
+        logger.info("KUBERNETES_SERVICE_HOST: " + os.getenv('KUBERNETES_SERVICE_HOST'))
+    else:
+        logger.warning("No KUBERNETES_SERVICE_HOST set in env.")
+
+    # Loading kubernetes config
+    init_kube_client()
+    threading.Thread(target=watch_nais_task, daemon=True).start()
