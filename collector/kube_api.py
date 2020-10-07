@@ -24,6 +24,12 @@ def watch_nais_apps(callback_function):
 
     v1 = CustomObjectsApi()
 
+    data = v1.list_cluster_custom_object(group="nais.io",
+                          version="v1alpha1",
+                          plural="applications")
+
+    print(data)
+
     w = Watch()
 
     logger.warning("    ")
