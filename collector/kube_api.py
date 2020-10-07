@@ -26,15 +26,13 @@ def watch_nais_apps(callback_function):
 
     w = Watch()
 
-    data = w.stream(v1.list_cluster_custom_object,
-                          group="nais.io",
-                          version="v1alpha1",
-                          plural="applications")
-
     logger.warning("    ")
     logger.warning("STARTING TO WATCH")
     logger.warning("    ")
 
-    for event in data:
+    for event in w.stream(v1.list_cluster_custom_object,
+                          group="nais.io",
+                          version="v1alpha1",
+                          plural="applications"):
         if event["type"] != "ERROR":
             callback_function(event)
