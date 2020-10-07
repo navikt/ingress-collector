@@ -12,7 +12,7 @@ spec:
     enabled: false
     path: /metrics
   istio:
-    enabled: false
+    enabled: true
   accessPolicy:
     outbound:
       external:
