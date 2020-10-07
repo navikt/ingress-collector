@@ -1,34 +1,25 @@
-from collector import nais
-
-logger = nais.init_nais_logging()
-
-
-def print_event_to_console(e):
-    logger.warning("Event: %s %s (%s)" % (
-        e['type'],
-        e['object']['metadata']['name'],
-        e['object']['metadata']['uid']))
+from kubernetes.client import CustomObjectsApi
+from kubernetes.watch import Watch
+from kubernetes.config import load_kube_config, load_incluster_config
 
 
 def init_kube_client():
-    from kubernetes import config
     try:
-        config.load_incluster_config()
+        load_incluster_config()
     except:
-        config.load_kube_config()
+        load_kube_config()
 
 
 def watch_nais_apps(callback_function):
-    from kubernetes import client, watch, config
 
     try:
-        config.load_incluster_config()
+        load_incluster_config()
     except Exception as e:
         logger.warning(e)
-        config.load_kube_config()
+        load_kube_config()
 
-    v1 = client.CustomObjectsApi()
-    w = watch.Watch()
+    v1 = CustomObjectsApi()
+    w = Watch()
     for event in w.stream(v1.list_cluster_custom_object,
                           group="nais.io",
                           version="v1alpha1",
