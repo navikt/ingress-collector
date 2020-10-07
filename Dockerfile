@@ -1,4 +1,4 @@
-FROM python:3.8-slim
+FROM navikt/python:3.8
 
 RUN apt-get update && apt-get install -y netcat curl
 
@@ -11,4 +11,3 @@ RUN pip3 install poetry && \
 
 ENTRYPOINT []
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--log-level", "info"]
-
