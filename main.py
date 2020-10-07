@@ -13,13 +13,6 @@ logger = init_nais_logging()
 app = FastAPI()
 
 
-def print_event_to_console(e):
-    logger.warning("Event: %s %s (%s)" % (
-        e['type'],
-        e['object']['metadata']['name'],
-        e['object']['metadata']['uid']))
-
-
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_tries=4)
 def request_put(url, message):
     res = requests.put(url, json.dumps(message).encode("utf-8"))
@@ -28,7 +21,7 @@ def request_put(url, message):
 
 
 def watch_nais_callback(e):
-    print_event_to_console(e)
+    logger.warning("Event: %s %s (%s)" % (e['type'], e['object']['metadata']['name'], e['object']['metadata']['uid']))
     # e.pop("type")
     # e["cluster"] = os.environ["NAIS_CLUSTER_NAME"]
     # request_put('https://ingress-retriever.prod-gcp.nais.io/event', e)

@@ -1,9 +1,8 @@
-from kubernetes.client import CustomObjectsApi
-from kubernetes.watch import Watch
+#from kubernetes.client import CustomObjectsApi
+#from kubernetes.watch import Watch
+#import kubernetes.config
+import kubernetes
 
-import kubernetes.config
-
-#from kubernetes.config import load_kube_config, load_incluster_config
 from collector.nais import init_nais_logging
 
 logger = init_nais_logging()
@@ -24,15 +23,9 @@ def watch_nais_apps(callback_function):
         print(e)
         kubernetes.config.load_kube_config()
 
-    v1 = CustomObjectsApi()
+    v1 = kubernetes.client.CustomObjectsApi()
 
-    datat = v1.list_cluster_custom_object(group="nais.io",
-                                          version="v1alpha1",
-                                          plural="applications")
-
-    print(datat)
-
-    w = Watch()
+    w = kubernetes.watch.Watch()
     logger.warning("    ")
     logger.warning("STARTING TO WATCH")
     logger.warning("    ")
