@@ -68,7 +68,7 @@ jobs:
     if: github.ref == 'refs/heads/master' && github.event_name != 'release'
     strategy:
       matrix:
-        cluster: [ "dev-gcp", "labs-gcp" ]
+        cluster: ["dev-gcp", "labs-gcp"]
     steps:
       - name: Checkout
         uses: actions/checkout@master
