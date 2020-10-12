@@ -14,7 +14,7 @@ logger = init_nais_logging()
 app = FastAPI()
 
 
-@backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_tries=4)
+@backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_tries=10)
 def request_put(url, message):
     res = requests.put(url, json.dumps(message).encode("utf-8"))
     res.raise_for_status()
