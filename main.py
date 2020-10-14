@@ -22,10 +22,12 @@ def request_put(url, message):
 
 
 def watch_nais_callback(e):
-    logger.warning("Event: %s %s (%s)" % (e['type'], e['object']['metadata']['name'], e['object']['metadata']['uid']))
+    logger.info("Event: %s %s (%s)" % (e['type'], e['object']['metadata']['name'], e['object']['metadata']['uid']))
     e.pop("type")
     e["cluster"] = os.environ["NAIS_CLUSTER_NAME"]
+    logger.info("Posting " + e['object']['metadata']['name'] + "to ingress-retriever prod")
     request_put('https://ingress-retriever.prod-gcp.nais.io/event', e)
+    logger.info("Posting " + e['object']['metadata']['name'] + "to ingress-retriever dev")
     request_put('https://ingress-retriever.dev-gcp.nais.io/event', e)
 
 
