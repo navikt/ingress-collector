@@ -17,5 +17,5 @@ def watch_nais_apps(callback_function):
                           group="nais.io",
                           version="v1alpha1",
                           plural="applications"):
-        if event["type"] != "ERROR":
+        if event["type"] not in ["ERROR", "DELETED"]:
             callback_function(event)
