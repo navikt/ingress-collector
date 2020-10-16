@@ -19,3 +19,10 @@ def watch_nais_apps(callback_function):
                           plural="applications"):
         if event["type"] not in ["ERROR", "DELETED"]:
             callback_function(event)
+        else:
+            logger.warning("    ")
+            logger.warning(event["type"] + " " + event['object']['metadata']['name'])
+            logger.warning("    ")
+    logger.error("")
+    logger.error("Stream stopped.")
+    logger.error("")
