@@ -19,12 +19,14 @@ def watch_nais_apps(callback_function):
                           plural="applications"):
         if event["type"] not in ["ERROR", "DELETED"]:
             callback_function(event)
-        else:
+        elif event["type"] == "ERROR":
             logger.warning("    ")
-            try:
-                logger.warning(event["type"] + " " + event['object']['metadata']['name'])
-            except KeyError:
-                logger.warning(event["type"])
+            logger.warning(event)
+
+            # try:
+            #     logger.warning(event["type"] + " " + event['object']['metadata']['name'])
+            # except KeyError:
+            #     logger.warning(event["type"])
             logger.warning("    ")
 
     logger.error("")
