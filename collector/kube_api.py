@@ -21,8 +21,12 @@ def watch_nais_apps(callback_function):
             callback_function(event)
         else:
             logger.warning("    ")
-            logger.warning(event["type"] + " " + event['object']['metadata']['name'])
+            try:
+                logger.warning(event["type"] + " " + event['object']['metadata']['name'])
+            except KeyError:
+                logger.warning(event["type"])
             logger.warning("    ")
+
     logger.error("")
     logger.error("Stream stopped.")
     logger.error("")
