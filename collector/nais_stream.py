@@ -34,4 +34,6 @@ class NaisStream:
                     logger.warning("")
                     logger.warning(event)
                     logger.warning("")
-                    raise TooOldResourceVersionError(re.search("\((\d*)\)", event["object"]["message"]).group(1))
+                    resource_version = re.search("\((\d*)\)", event["object"]["message"])
+                    if resource_version:
+                        raise TooOldResourceVersionError(resource_version.group(1))
