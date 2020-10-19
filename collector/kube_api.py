@@ -1,5 +1,6 @@
 from kubernetes import client, watch
 from collector.nais import init_nais_logging
+from collector.nais_stream import NaisStream, TooOldResourceVersionError
 
 
 logger = init_nais_logging()
@@ -9,26 +10,9 @@ def watch_nais_apps(callback_function):
     v1 = client.CustomObjectsApi()
     w = watch.Watch()
 
-    logger.warning("    ")
-    logger.warning("STARTING TO WATCH")
-    logger.warning("    ")
+    stream = NaisStream(callback_function, v1, w)
 
-    for event in w.stream(v1.list_cluster_custom_object,
-                          group="nais.io",
-                          version="v1alpha1",
-                          plural="applications"):
-        if event["type"] not in ["ERROR", "DELETED"]:
-            callback_function(event)
-        elif event["type"] == "ERROR":
-            logger.warning("    ")
-            logger.warning(event)
-
-            # try:
-            #     logger.warning(event["type"] + " " + event['object']['metadata']['name'])
-            # except KeyError:
-            #     logger.warning(event["type"])
-            logger.warning("    ")
-
-    logger.error("")
-    logger.error("Stream stopped.")
-    logger.error("")
+    try:
+        stream.watch()
+    except TooOldResourceVersionError as resource_version:
+        stream.watch(resource_version=resource_version)
