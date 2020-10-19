@@ -31,9 +31,8 @@ class NaisStream:
             if event["type"] not in ["ERROR", "DELETED"]:
                 self.callback_function(event)
             elif event["type"] == "ERROR" and event["object"]["code"] == 410:
-                    logger.warning("")
-                    logger.warning(event)
-                    logger.warning("")
-                    resource_version = re.search("\((\d*)\)", event["object"]["message"])
-                    if resource_version:
-                        raise TooOldResourceVersionError(resource_version.group(1))
+                logger.warning("")
+                logger.warning(event)
+                logger.warning("")
+                resource_version = event["object"]["message"].split('(')
+                raise TooOldResourceVersionError(resource_version[1][:-1])
