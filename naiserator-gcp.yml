@@ -6,7 +6,7 @@ metadata:
   name: ingress-collector
   namespace: dataplattform
 spec:
-  image: navikt/test-collector:vJAETEST3
+  image: {{image}}
   port: 8000
   prometheus:
     enabled: false
