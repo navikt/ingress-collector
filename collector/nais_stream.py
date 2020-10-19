@@ -9,11 +9,14 @@ logger = init_nais_logging()
 class TooOldResourceVersionError(Exception):
 
     def __init__(self, resource_version: str):
-        self.resource_version = resource_version
+        self._resource_version = resource_version
 
     def __str__(self):
-        return self.resource_version
+        return self._resource_version
 
+    @property
+    def resource_version(self):
+        return self._resource_version
 
 class NaisStream:
 
