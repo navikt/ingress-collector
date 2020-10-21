@@ -95,7 +95,7 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_KEY }}
           CLUSTER: ${{ matrix.cluster }}
-          RESOURCE: naiserator_prod-sbs_prod-fss
+          RESOURCE: naiserator_prod-sbs_prod-fss.yml
           VARS: .nais/${{ matrix.cluster }}.json
 
   deploy-prod-gcp:
