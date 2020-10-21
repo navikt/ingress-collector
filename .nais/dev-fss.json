@@ -1,5 +1,5 @@
 {
   "namespace": "default",
   "pool": "nav-dev",
-  "proxy": "https://webproxy.nais:8088"
+  "retriever_url": "https://ingress-retriever.dev-gcp.nais.io"
 }

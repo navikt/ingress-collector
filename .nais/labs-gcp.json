@@ -1,4 +1,5 @@
 {
   "namespace": "dataplattform",
-  "pool": "nav-dev"
+  "pool": "nav-dev",
+  "retriever_url": "https://ingress-retriever.dev-gcp.nais.io"
 }
