@@ -1,5 +1,6 @@
 {
   "namespace": "default",
   "pool": "nav-dev",
-  "proxy": "https://webproxy.nais:8088"
+  "retriever_url_prod": "https://ingress-retriever.prod-gcp.nais.io/event",
+  "retriever_url_dev": "https://ingress-retriever.dev-gcp.nais.io/event"
 }

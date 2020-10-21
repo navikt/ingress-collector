@@ -49,3 +49,7 @@ spec:
       value: /etc/pki/tls/certs/ca-bundle.crt
     - name: SSL_CERT_FILE
       value: /etc/pki/tls/certs/ca-bundle.crt
+    - name: RETRIEVER_URL_PROD
+      value: {{retriever_url_prod}}
+    - name: RETRIEVER_URL_DEV
+      value: {{retriever_url_dev}}
