@@ -25,8 +25,12 @@ def watch_nais_callback(e):
     logger.info("Event: %s %s (%s)" % (e['type'], e['object']['metadata']['name'], e['object']['metadata']['uid']))
     e.pop("type")
     e["cluster"] = os.environ["NAIS_CLUSTER_NAME"]
-    logger.info("Posting " + e['object']['metadata']['name'] + " to ingress-retriever " + os.environ["NAIS_CLUSTER_NAME"])
-    request_put(os.environ["RETRIEVER_URL"], e)
+    logger.info("Posting " + e['object']['metadata']['name'] + " to ingress-retriever prod")
+    request_put(os.environ["RETRIEVER_URL_PROD"], e)
+
+    if os.environ["RETRIEVER_URL_DEV"]:
+        logger.info("Posting " + e['object']['metadata']['name'] + " to ingress-retriever dev")
+        request_put(os.environ["RETRIEVER_URL_DEV"], e)
 
 
 def init_kube_client():
