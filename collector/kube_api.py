@@ -15,4 +15,5 @@ def watch_nais_apps(callback_function):
     try:
         stream.watch()
     except TooOldResourceVersionError as resource_version_error:
+        logger.info("Starting new watch with resource_version: " + resource_version_error.resource_version)
         stream.watch(resource_version=resource_version_error.resource_version)
