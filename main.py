@@ -28,7 +28,7 @@ def watch_nais_callback(e):
     logger.info("Posting " + e['object']['metadata']['name'] + " to ingress-retriever prod")
     request_put(os.environ["RETRIEVER_URL_PROD"], e)
 
-    if os.environ["RETRIEVER_URL_DEV"]:
+    if "RETRIEVER_URL_DEV" in os.environ:
         logger.info("Posting " + e['object']['metadata']['name'] + " to ingress-retriever dev")
         request_put(os.environ["RETRIEVER_URL_DEV"], e)
 
