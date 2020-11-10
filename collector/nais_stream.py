@@ -1,6 +1,9 @@
 import re
 
 from typing import Callable
+
+from kubernetes.client import ApiException
+
 from collector.nais import init_nais_logging
 
 logger = init_nais_logging()
@@ -18,24 +21,32 @@ class TooOldResourceVersionError(Exception):
     def resource_version(self):
         return self._resource_version
 
-class NaisStream:
 
+class NaisStream:
     def __init__(self, callback_function: Callable, v1, w):
         self.callback_function = callback_function
         self.v1 = v1
         self.w = w
 
     def watch(self, **kwargs):
-        for event in self.w.stream(self.v1.list_cluster_custom_object,
-                                   group="nais.io",
-                                   version="v1alpha1",
-                                   plural="applications",
-                                   **kwargs):
-            if event["type"] not in ["ERROR", "DELETED"]:
-                self.callback_function(event)
-            elif event["type"] == "ERROR" and event["object"]["code"] == 410:
-                logger.warning("")
-                logger.warning(event)
-                logger.warning("")
-                resource_version = event["object"]["message"].split('(')
+        try:
+            for event in self.w.stream(self.v1.list_cluster_custom_object,
+                                       group="nais.io",
+                                       version="v1alpha1",
+                                       plural="applications",
+                                       **kwargs):
+                if event["type"] not in ["ERROR", "DELETED"]:
+                    self.callback_function(event)
+                elif event["type"] == "ERROR" and event["object"]["code"] == 410:
+                    logger.warning("")
+                    logger.warning(event)
+                    logger.warning("")
+                    resource_version = event["object"]["message"].split('(')
+                    raise TooOldResourceVersionError(resource_version[1][:-1])
+        except ApiException as api_exc:
+            logger.warning(f"\n\nAPI exception: {api_exc.status}: Reason: {api_exc.reason}\n\n")
+            if api_exc.status == 410:
+                resource_version = api_exc.reason.split('(')
                 raise TooOldResourceVersionError(resource_version[1][:-1])
+            else:
+                raise api_exc
