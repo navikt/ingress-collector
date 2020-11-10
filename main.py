@@ -5,6 +5,8 @@ import json
 import backoff
 # noinspection PyPackageRequirements
 from fastapi import FastAPI
+from starlette.responses import JSONResponse
+from starlette import status
 from collector.nais import init_nais_logging
 from collector.kube_api import watch_nais_apps
 from kubernetes import client, config
@@ -12,6 +14,7 @@ from kubernetes import client, config
 # initiating logging
 logger = init_nais_logging()
 app = FastAPI()
+is_alive = True
 
 
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_tries=10)
@@ -43,7 +46,11 @@ def init_kube_client():
 
 
 def watch_nais_task() -> None:
-    watch_nais_apps(watch_nais_callback)
+    try:
+        watch_nais_apps(watch_nais_callback)
+    except:
+        global is_alive
+        is_alive = False
 
 
 @app.on_event('startup')
@@ -71,7 +78,11 @@ def root():
 
 @app.get('/is-alive')
 def is_healthy():
-    return 'OK'
+    if is_alive:
+        return 'OK'
+    else:
+        return JSONResponse(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            content={"Error": "K8s stream stopped"})
 
 
 @app.get('/is-ready')
