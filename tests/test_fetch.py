@@ -10,7 +10,7 @@ class FetchTests(unittest.TestCase):
         secret = "Whabadubaduppdupp"
         token = create_token(secret)
         print("Token: %s" % token)
-        decoded_token = jwt.decode(token, secret, algorithm='HS256')
+        decoded_token = jwt.decode(token, secret, algorithms=['HS256'])
         print("Token: %s" % decoded_token)
         self.assertEqual(decoded_token.get("iss"), 'local')
 
