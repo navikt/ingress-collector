@@ -22,7 +22,7 @@ jobs:
         with:
           python-version: 3.7
       - name: Install Poetry
-        uses: dschep/install-poetry-action@v1.2
+        run: pip install poetry
       - name: Set Poetry config
         run: poetry config virtualenvs.in-project true
       - name: Install lib
