@@ -29,7 +29,8 @@ def watch_nais_callback(e):
     e.pop("type")
     e["cluster"] = os.environ["NAIS_CLUSTER_NAME"]
     e["application_type"] = "Nais_App"
-    logger.info("Posting " + e['object']['metadata']['name'] + " to ingress-retriever prod")
+    logger.info("Posting " + e['object']['metadata']['name'] + " from cluster: " + e['cluster']
+                + " to ingress-retriever prod")
     request_put(os.environ["RETRIEVER_URL_PROD"], e)
 
     if "RETRIEVER_URL_DEV" in os.environ:
