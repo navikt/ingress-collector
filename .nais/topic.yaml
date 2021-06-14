@@ -1,12 +1,12 @@
 apiVersion: kafka.nais.io/v1
 kind: Topic
 metadata:
-  name: ingress-topic
+  name: ingress-topic-v2
   namespace: dataplattform
   labels:
     team: dataplattform
 spec:
-  pool: nav-prod
+  pool: nav-infrastructure
   config:  # optional; all fields are optional too; defaults shown
     cleanupPolicy: compact  # delete, compact
     minimumInSyncReplicas: 1
