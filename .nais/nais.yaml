@@ -6,18 +6,15 @@ metadata:
   name: ingress-collector
   namespace: dataplattform
 spec:
-  image: {{image}}
+  image: {{ image }}
   port: 8000
   prometheus:
     enabled: false
     path: /metrics
+  kafka:
+    pool: nav-infrastructure
   istio:
-    enabled: true
-  accessPolicy:
-    outbound:
-      external:
-       - host: ingress-retriever.prod-gcp.nais.io
-       - host: ingress-retriever.dev-gcp.nais.io
+    enabled: false
   liveness:
     path: /is-alive
     timeout: 2
@@ -49,7 +46,19 @@ spec:
       value: /etc/pki/tls/certs/ca-bundle.crt
     - name: SSL_CERT_FILE
       value: /etc/pki/tls/certs/ca-bundle.crt
-    - name: RETRIEVER_URL_PROD
-      value: {{retriever_url_prod}}
-    - name: RETRIEVER_URL_DEV
-      value: {{retriever_url_dev}}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: ingress-collector-apiserver
+  namespace: dataplattform
+spec:
+  egress:
+  - to:
+    - ipBlock:
+        cidr: 172.16.0.2/32
+  podSelector:
+    matchLabels:
+      app: ingress-collector
+  policyTypes:
+  - Egress

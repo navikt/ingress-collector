@@ -12,16 +12,12 @@ from collector.kube_api import watch_nais_apps
 from kubernetes import client, config
 
 # initiating logging
+from kafka_producer.kafka_producer import IngressRetrieverKafkaProducer
+
 logger = init_nais_logging()
 app = FastAPI()
+producer = IngressRetrieverKafkaProducer()
 is_alive = True
-
-
-@backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_tries=10)
-def request_put(url, message):
-    res = requests.put(url, json.dumps(message).encode("utf-8"))
-    res.raise_for_status()
-    logger.info(res)
 
 
 def watch_nais_callback(e):
@@ -31,11 +27,7 @@ def watch_nais_callback(e):
     e["application_type"] = "Nais_App"
     logger.info("Posting " + e['object']['metadata']['name'] + " from cluster: " + e['cluster']
                 + " to ingress-retriever prod")
-    request_put(os.environ["RETRIEVER_URL_PROD"], e)
-
-    if "RETRIEVER_URL_DEV" in os.environ:
-        logger.info("Posting " + e['object']['metadata']['name'] + " to ingress-retriever dev")
-        request_put(os.environ["RETRIEVER_URL_DEV"], e)
+    producer.send(e)
 
 
 def init_kube_client():

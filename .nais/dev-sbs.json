@@ -1,6 +1,0 @@
-{
-  "namespace": "default",
-  "pool": "nav-dev",
-  "retriever_url_prod": "https://ingress-retriever.prod-gcp.nais.io/event",
-  "retriever_url_dev": "https://ingress-retriever.dev-gcp.nais.io/event"
-}

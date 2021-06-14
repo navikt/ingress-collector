@@ -50,7 +50,7 @@ jobs:
     if: github.ref == 'refs/heads/master' && github.event_name != 'release'
     strategy:
       matrix:
-        cluster: ["dev-sbs", "dev-fss"]
+        cluster: ["dev-sbs", "dev-fss", "dev-gcp"]
     steps:
       - name: Checkout
         uses: actions/checkout@master
@@ -59,26 +59,7 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_KEY }}
           CLUSTER: ${{ matrix.cluster }}
-          RESOURCE: naiserator.yml
-          VARS: .nais/${{ matrix.cluster }}.json
-
-  deploy-dev-labs-gcp:
-    runs-on: ubuntu-latest
-    needs: build
-    if: github.ref == 'refs/heads/master' && github.event_name != 'release'
-    strategy:
-      matrix:
-        cluster: ["dev-gcp", "labs-gcp"]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@master
-      - name: Deploy to ${{ matrix.cluster }}
-        uses: nais/deploy/actions/deploy@master
-        env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_KEY }}
-          CLUSTER: ${{ matrix.cluster }}
-          RESOURCE: naiserator-gcp.yml,network_policy.yml
-          VARS: .nais/${{ matrix.cluster }}.json
+          RESOURCE: .nais/nais.yaml
 
   deploy-prod:
     runs-on: ubuntu-latest
@@ -86,7 +67,7 @@ jobs:
     if: github.event_name == 'release'
     strategy:
       matrix:
-        cluster: ["prod-sbs", "prod-fss"]
+        cluster: ["prod-sbs", "prod-fss", "prod-gcp"]
     steps:
       - name: Checkout
         uses: actions/checkout@master
@@ -95,20 +76,4 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_KEY }}
           CLUSTER: ${{ matrix.cluster }}
-          RESOURCE: naiserator_prod-sbs_prod-fss.yml
-          VARS: .nais/${{ matrix.cluster }}.json
-
-  deploy-prod-gcp:
-    runs-on: ubuntu-latest
-    needs: build
-    if: github.event_name == 'release'
-    steps:
-      - name: Checkout
-        uses: actions/checkout@master
-      - name: Deploy to prod-gcp
-        uses: nais/deploy/actions/deploy@master
-        env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_KEY }}
-          CLUSTER: prod-gcp
-          RESOURCE: naiserator-gcp.yml,network_policy.yml
-          VARS: .nais/prod-gcp.json
+          RESOURCE: .nais/nais.yaml,.nais/topic.yaml
