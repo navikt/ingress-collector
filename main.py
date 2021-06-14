@@ -9,8 +9,6 @@ from starlette import status
 from collector.nais import init_nais_logging
 from collector.kube_api import watch_nais_apps
 from kubernetes import client, config
-
-# initiating logging
 from kafka_producer.kafka_producer import IngressRetrieverKafkaProducer
 
 logger = init_nais_logging()

@@ -1,5 +1,6 @@
 *
 !collector
+!kafka_producer
 !*.py
 !pyproject.toml
 !entrypoint.sh
