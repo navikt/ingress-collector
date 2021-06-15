@@ -4,9 +4,9 @@ from typing import Callable
 
 from kubernetes.client import ApiException
 
-from collector.nais import init_nais_logging
+from collector.utils import get_logger
 
-logger = init_nais_logging()
+logger = get_logger(__name__)
 
 
 class TooOldResourceVersionError(Exception):
@@ -37,12 +37,6 @@ class NaisStream:
                                        **kwargs):
                 if event["type"] not in ["ERROR", "DELETED"]:
                     self.callback_function(event)
-                elif event["type"] == "ERROR" and event["object"]["code"] == 410:
-                    logger.warning("")
-                    logger.warning(event)
-                    logger.warning("")
-                    resource_version = event["object"]["message"].split('(')
-                    raise TooOldResourceVersionError(resource_version[1][:-1])
         except ApiException as api_exc:
             logger.warning(f"\n\nAPI exception: {api_exc.status}: Reason: {api_exc.reason}\n\n")
             if api_exc.status == 410:
