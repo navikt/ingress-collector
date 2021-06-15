@@ -30,12 +30,12 @@ def init_kube_client():
 
 
 def app_watcher_callback(e):
-    logger.info("Event: %s %s (%s)" % (e['type'], e['object']['metadata']['name'], e['object']['metadata']['uid']))
+    logger.info("Received event: %s %s (%s)" % (e['type'], e['object']['metadata']['name'], e['object']['metadata']['uid']))
     e.pop("type")
     e["cluster"] = os.environ["NAIS_CLUSTER_NAME"]
     e["application_type"] = "Nais_App"
-    logger.info("Posting " + e['object']['metadata']['name'] + " from cluster: " + e['cluster']
-                + " to ingress-retriever prod")
+    logger.info("Publishing " + e['object']['metadata']['name'] + " from cluster: " + e['cluster']
+                + f" to topic {os.environ['KAFKA_TOPIC']}")
     producer.send(e)
 
 
