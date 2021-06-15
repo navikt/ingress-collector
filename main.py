@@ -10,14 +10,14 @@ from collector.metrics import STREAM_TIMEOUT_COUNTER
 from collector.nais_stream import NaisStream, TooOldResourceVersionError
 from collector.utils import init_app_logging, get_logger
 from kubernetes import client, config, watch
-from kafka_producer.kafka_producer import IngressRetrieverKafkaProducer
+from kafka_producer.kafka_producer import CollectorKafkaProducer
 
 init_app_logging()
 logger = get_logger(__name__)
 app = FastAPI()
 is_alive = True
 
-producer = IngressRetrieverKafkaProducer()
+producer = CollectorKafkaProducer()
 
 
 def init_kube_client():

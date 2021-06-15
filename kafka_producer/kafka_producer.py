@@ -4,7 +4,7 @@ from kafka import KafkaProducer
 from kafka.errors import KafkaError
 
 
-class IngressRetrieverKafkaProducer:
+class CollectorKafkaProducer:
 
     def __init__(self):
         self.producer = KafkaProducer(bootstrap_servers=os.environ["KAFKA_BROKERS"],
