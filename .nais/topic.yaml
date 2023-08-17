@@ -2,9 +2,9 @@ apiVersion: kafka.nais.io/v1
 kind: Topic
 metadata:
   name: ingress-topic-v2
-  namespace: dataplattform
+  namespace: team-researchops
   labels:
-    team: dataplattform
+    team: team-researchops
 spec:
   pool: nav-infrastructure
   config:  # optional; all fields are optional too; defaults shown
@@ -15,15 +15,9 @@ spec:
     retentionBytes: -1
     retentionHours: 72
   acl:
-    - team: dataplattform
+    - team: team-researchops
       application: ingress-collector
       access: write
-    - team: dataplattform
+    - team: team-researchops
       application: amplitude-proxy
-      access: read
-    - team: dataplattform
-      application: dekoratoren-bigquery
-      access: read
-    - team: dataplattform
-      application: dakan-ingress-indexer
       access: read

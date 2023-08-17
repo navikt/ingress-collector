@@ -1,0 +1,23 @@
+apiVersion: "nais.io/v1"
+kind: "Alert"
+metadata:
+  name: topic-collector
+  namespace: dataplattform
+  labels:
+    team: dataplattform
+spec:
+  receivers:
+    slack:
+      channel: '#nada-airflow-alerts'
+      prependText: '<!here> | '
+  alerts:
+    - alert: ingress-collector stream restarts too often
+      expr: increase(ingress_collector_counter_k8s_stream_timeout_total[5m])>10
+      for: 1m
+      description: "{{ $labels.app }} stream restarts to often in namespace {{ $labels.kubernetes_namespace }}"
+      action: "`kubectl logs {{ $labels.kubernetes_pod_name }} -n {{ $labels.kubernetes_namespace }}`"
+    - alert: ingress-collector pod restarts too often
+      expr: increase(kube_pod_container_status_restarts_total{container="ingress-collector", namespace="dataplattform"}[20m])>10
+      for: 1m
+      description: "{{ $labels.app }} pod restarts to often in namespace {{ $labels.kubernetes_namespace }}"
+      action: "`kubectl describe pod {{ $labels.kubernetes_pod_name }} -n {{ $labels.kubernetes_namespace }}` for events, and `kubectl logs {{ $labels.kubernetes_pod_name }} -n {{ $labels.kubernetes_namespace }}` for logs"

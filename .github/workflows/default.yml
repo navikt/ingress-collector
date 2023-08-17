@@ -30,7 +30,7 @@ jobs:
     if: github.ref == 'refs/heads/master' && github.event_name != 'release'
     strategy:
       matrix:
-        cluster: ["dev-sbs", "dev-fss", "dev-gcp"]
+        cluster: ["dev-fss", "dev-gcp"]
     steps:
       - name: Checkout
         uses: actions/checkout@master
@@ -47,7 +47,7 @@ jobs:
     if: github.event_name == 'release'
     strategy:
       matrix:
-        cluster: ["prod-sbs", "prod-fss", "prod-gcp"]
+        cluster: ["prod-fss", "prod-gcp"]
     steps:
       - name: Checkout
         uses: actions/checkout@master
