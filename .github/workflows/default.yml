@@ -58,7 +58,7 @@ jobs:
           CLUSTER: ${{ matrix.cluster }}
           RESOURCE: .nais/nais.yaml
 
-  deploy-prod:
+  deploy-prod-topic:
     runs-on: ubuntu-latest
     needs: build
     if: github.event_name == 'release'
