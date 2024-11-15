@@ -1,16 +1,17 @@
 # ingress-collector
-Small application that collect ingresses from a kubernetes cluster and push them to a REST endpoint
-on `amplitude-proxy`
 
+Small application that collect ingresses from a kubernetes cluster and push them to a REST endpoint on `amplitude-proxy` and `amplitrude-proxy`
 
 ## Inspiration
+
 https://github.com/navikt/naisflow-decorators
 
 ## Contract
+
 Post an array containing all entries at one endpoint:
 endpoint `PUT /ingresses/{collector}` this will reset all
 entries for this cluster(?). Typical at collector startup.
-After this changes can be pushed to the endpoint with 
+After this changes can be pushed to the endpoint with
 `PATCH /ingresses/{collector}`
 
 ```json
@@ -31,14 +32,7 @@ After this changes can be pushed to the endpoint with
 ```
 
 ### Docker
+
 ```
 docker-compose up -d --remove-orphans --build
 ```
-
-
-
-
-
-
-
-
